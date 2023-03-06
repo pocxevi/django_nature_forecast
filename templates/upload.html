@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <title>文件上传</title>
+    <link rel="stylesheet" href="/static/commons.css">
+    <link rel="stylesheet" href="/static/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="shortcut icon" href="/static/3.ico">
+    <link rel=“stylesheet” type=“text/css” media=“only screen and （max-width： 480px），only screen and （max-device-width：
+          480px）” href=“link.css”/>
+</head>
+<body style="background-image: url({% static 'images/2.jpg' %});
+        background-attachment: fixed;
+        background-size:100% 100%;
+        background-repeat:no-repeat;">
+<form class="form-group" action="/upload/" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class=center style="margin:60px 480px" class="row mt-5 justify-content-around">
+        <h3>高光谱数据分析预测</h3><br>
+        <div class="form-group">
+            <label for="InputFile">光谱数据文件上传</label>
+            <input type="file" name="file1" accept=".csv" id="InputFile1">
+            <p class="help-block">只允许上传csv格式文件</p>
+        </div>
+        <button class="btn btn-default" type="submit" formaction="/preview/">点击查看表格数据</button>
+        <br><br><br>
+        输入光谱波段：<br>
+        起始波段：<input type="number" class="form-control" name="start" placeholder="" min="400" max="2400"
+                    style="width:85px">
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        终止波段：<input type="number" class="form-control" name="end" placeholder="" min="400" max="2400"
+                    style="width:85px">
+        <br><br>
+        <div class="form-group">
+            <label for="model">选择模型:</label>
+            <select class="form-control" name="model" id="model">
+                <option value="none" selected disabled hidden>请选择模型</option>
+                <option>偏最小二乘回归模型</option>
+                <option>支持向量回归模型</option>
+                <option>随机森林回归模型</option>
+            </select>
+            <br><br>
+            <label for="check_box_list">选择要预测的值:</label>
+            <input type="checkbox" name="check_box_list" style="zoom:120%" value='water%'>&nbsp;含水量&nbsp;&nbsp;
+            <input type="checkbox" name="check_box_list" style="zoom:120%" value='OM'>&nbsp;有机质&nbsp;&nbsp;
+            <input type="checkbox" name="check_box_list" style="zoom:120%" value='logOM'>&nbsp;logOM&nbsp;&nbsp;
+            <input type="checkbox" name="check_box_list" style="zoom:120%" value='fe_free氧化物'>&nbsp;fe_free氧化物&nbsp;&nbsp;
+            <input type="checkbox" name="check_box_list" style="zoom:120%" value='clay'>&nbsp;clay&nbsp;&nbsp;
+            <input type="checkbox" name="check_box_list" style="zoom:120%" value='silt'>&nbsp;silt&nbsp;&nbsp;
+            <input type="checkbox" name="check_box_list" style="zoom:120%" value='sand'>&nbsp;sand&nbsp;&nbsp;
+        </div>
+        <br><br>
+        输入测试集样本占比:
+        <input type="number" class="form-control" name="test_size" placeholder="样本占比" style="width:85px" min="1"
+               max="99">%
+        <br><br>
+        <button type="submit" class="btn btn-default" formaction="/predict/">查看简要预测数据</button>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <button type="submit" class="btn btn-default" formaction="/fileDownload/">下载完整预测数据</button>
+    </div>
+    <div class=center style="margin:0px 300px 60px 300px">
+        <b>{{ sum_up }}</b>
+        <br><br>
+        {{ name1 }}
+        <table class="table table-bordered table-hover table-condensed">
+            {% for i in new_list1 %}
+                <tr>
+                    <td>{{ i.0 }}</td>
+                    <td>{{ i.1 }}</td>
+                    <td>{{ i.2 }}</td>
+                    <td>{{ i.3 }}</td>
+                    <td>{{ i.4 }}</td>
+                    <td>{{ i.5 }}</td>
+                    <td>{{ i.6 }}</td>
+                    <td>{{ i.7 }}</td>
+                    <td>{{ i.8 }}</td>
+                    <td>{{ i.9 }}</td>
+                    <td>{{ i.10 }}</td>
+                    <td>{{ i.11 }}</td>
+                    <td>{{ i.12 }}</td>
+                    <td>{{ i.13 }}</td>
+                    <td>{{ i.14 }}</td>
+                    <td>{{ i.15 }}</td>
+                    <td>{{ i.16 }}</td>
+                    <td>{{ i.17 }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+        {{ name2 }}
+        <table class="table table-bordered table-hover table-condensed">
+            {% for i in new_list2 %}
+                <tr>
+                    <td>{{ i.0 }}</td>
+                    <td>{{ i.1 }}</td>
+                    <td>{{ i.2 }}</td>
+                    <td>{{ i.3 }}</td>
+                    <td>{{ i.4 }}</td>
+                    <td>{{ i.5 }}</td>
+                    <td>{{ i.6 }}</td>
+                    <td>{{ i.7 }}</td>
+                    <td>{{ i.8 }}</td>
+                    <td>{{ i.9 }}</td>
+                    <td>{{ i.10 }}</td>
+                    <td>{{ i.11 }}</td>
+                    <td>{{ i.12 }}</td>
+                    <td>{{ i.13 }}</td>
+                    <td>{{ i.14 }}</td>
+                    <td>{{ i.15 }}</td>
+                    <td>{{ i.16 }}</td>
+                    <td>{{ i.17 }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+        {{ name3 }}
+        <table class="table table-bordered table-hover table-condensed">
+            {% for i in new_list3 %}
+                <tr>
+                    <td>{{ i.0 }}</td>
+                    <td>{{ i.1 }}</td>
+                    <td>{{ i.2 }}</td>
+                    <td>{{ i.3 }}</td>
+                    <td>{{ i.4 }}</td>
+                    <td>{{ i.5 }}</td>
+                    <td>{{ i.6 }}</td>
+                    <td>{{ i.7 }}</td>
+                    <td>{{ i.8 }}</td>
+                    <td>{{ i.9 }}</td>
+                    <td>{{ i.10 }}</td>
+                    <td>{{ i.11 }}</td>
+                    <td>{{ i.12 }}</td>
+                    <td>{{ i.13 }}</td>
+                    <td>{{ i.14 }}</td>
+                    <td>{{ i.15 }}</td>
+                    <td>{{ i.16 }}</td>
+                    <td>{{ i.17 }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+        {{ name4 }}
+        <table class="table table-bordered table-hover table-condensed">
+            {% for i in new_list4 %}
+                <tr>
+                    <td>{{ i.0 }}</td>
+                    <td>{{ i.1 }}</td>
+                    <td>{{ i.2 }}</td>
+                    <td>{{ i.3 }}</td>
+                    <td>{{ i.4 }}</td>
+                    <td>{{ i.5 }}</td>
+                    <td>{{ i.6 }}</td>
+                    <td>{{ i.7 }}</td>
+                    <td>{{ i.8 }}</td>
+                    <td>{{ i.9 }}</td>
+                    <td>{{ i.10 }}</td>
+                    <td>{{ i.11 }}</td>
+                    <td>{{ i.12 }}</td>
+                    <td>{{ i.13 }}</td>
+                    <td>{{ i.14 }}</td>
+                    <td>{{ i.15 }}</td>
+                    <td>{{ i.16 }}</td>
+                    <td>{{ i.17 }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+        {{ name5 }}
+        <table class="table table-bordered table-hover table-condensed">
+            {% for i in new_list5 %}
+                <tr>
+                    <td>{{ i.0 }}</td>
+                    <td>{{ i.1 }}</td>
+                    <td>{{ i.2 }}</td>
+                    <td>{{ i.3 }}</td>
+                    <td>{{ i.4 }}</td>
+                    <td>{{ i.5 }}</td>
+                    <td>{{ i.6 }}</td>
+                    <td>{{ i.7 }}</td>
+                    <td>{{ i.8 }}</td>
+                    <td>{{ i.9 }}</td>
+                    <td>{{ i.10 }}</td>
+                    <td>{{ i.11 }}</td>
+                    <td>{{ i.12 }}</td>
+                    <td>{{ i.13 }}</td>
+                    <td>{{ i.14 }}</td>
+                    <td>{{ i.15 }}</td>
+                    <td>{{ i.16 }}</td>
+                    <td>{{ i.17 }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+        {{ name6 }}
+        <table class="table table-bordered table-hover table-condensed">
+            {% for i in new_list6 %}
+                <tr>
+                    <td>{{ i.0 }}</td>
+                    <td>{{ i.1 }}</td>
+                    <td>{{ i.2 }}</td>
+                    <td>{{ i.3 }}</td>
+                    <td>{{ i.4 }}</td>
+                    <td>{{ i.5 }}</td>
+                    <td>{{ i.6 }}</td>
+                    <td>{{ i.7 }}</td>
+                    <td>{{ i.8 }}</td>
+                    <td>{{ i.9 }}</td>
+                    <td>{{ i.10 }}</td>
+                    <td>{{ i.11 }}</td>
+                    <td>{{ i.12 }}</td>
+                    <td>{{ i.13 }}</td>
+                    <td>{{ i.14 }}</td>
+                    <td>{{ i.15 }}</td>
+                    <td>{{ i.16 }}</td>
+                    <td>{{ i.17 }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+        {{ name7 }}
+        <table class="table table-bordered table-hover table-condensed">
+            {% for i in new_list7 %}
+                <tr>
+                    <td>{{ i.0 }}</td>
+                    <td>{{ i.1 }}</td>
+                    <td>{{ i.2 }}</td>
+                    <td>{{ i.3 }}</td>
+                    <td>{{ i.4 }}</td>
+                    <td>{{ i.5 }}</td>
+                    <td>{{ i.6 }}</td>
+                    <td>{{ i.7 }}</td>
+                    <td>{{ i.8 }}</td>
+                    <td>{{ i.9 }}</td>
+                    <td>{{ i.10 }}</td>
+                    <td>{{ i.11 }}</td>
+                    <td>{{ i.12 }}</td>
+                    <td>{{ i.13 }}</td>
+                    <td>{{ i.14 }}</td>
+                    <td>{{ i.15 }}</td>
+                    <td>{{ i.16 }}</td>
+                    <td>{{ i.17 }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+</form>
+</body>
+</html>
